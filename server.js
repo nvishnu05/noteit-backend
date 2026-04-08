@@ -10,8 +10,20 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const MONGODB_URI = process.env.MONGODB_URI;
 
-// 🔥 SIMPLE CORS (no restriction)
-app.use(cors());
+// Configure CORS for production and development
+const corsOptions = {
+  origin: [
+    'http://localhost:5173',      // Development
+    'http://localhost:3000',       // Alternative dev port
+    'https://noteit-production.vercel.app',  // Your frontend production URL (update as needed)
+    'https://noteit-frontend-production.up.railway.app'  // If frontend is on Railway
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
 
 app.use(express.json());
 
